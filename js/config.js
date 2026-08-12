@@ -7,14 +7,14 @@ MOT.config = {
   /* Apps Script 웹앱 배포 URL (.../exec)
      결과 스프레드시트 "MOT_고반가든_점검결과_V2" 에 붙인 스크립트의 배포 주소.
      배포 후 아래 값을 채워 넣으세요. 앱 설정 화면에서도 변경할 수 있습니다. */
-  SCRIPT_URL: "",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxVo1Fj2ooX3tK_YwTg7xckNPPCAG5Dn3im0AqezlMpttqQwkUCg85T2Hqc7qA2FhrlWg/exec",
 
   /* 참고용 시트 주소 (앱 설정 화면 안내에 사용) */
   CHECKLIST_SHEET_URL: "https://docs.google.com/spreadsheets/d/1oRr-n4OX9Ue0BX51IN1uJ2trVMB7aDYVsy1woX-cUQE/edit",
   RESULT_SHEET_URL:    "https://docs.google.com/spreadsheets/d/1qMAtiJ8CC0QcL2ijSqV2PFeH1dEZo175E7bFNW4Tu9U/edit",
 
   BRAND: "고반가든",
-  APP_VERSION: "2.0.1",
+  APP_VERSION: "2.0.2",
 
   /* 등급 컷 (점수 이상이면 해당 등급) */
   GRADE_CUTS: [
@@ -53,6 +53,9 @@ MOT.LS = {
 
 /* 변경 이력 (최신이 위) */
 MOT.CHANGELOG = [
+  { v: "2.0.2", date: "2026-08-12", items: [
+    "전송 후 응답이 늦어 '실패'로 보이던 문제를 고쳤습니다 — 기다리는 시간을 넉넉히 늘렸고, 그래도 응답이 늦으면 '시트에 이미 저장됐을 수 있다'고 정확히 안내합니다"
+  ]},
   { v: "2.0.1", date: "2026-08-12", items: [
     "구글 시트의 18번(뜨거우니 조심하세요) 구분과 7번 개인구분이 정리되어, 앱 내장본을 시트와 동일하게 맞췄습니다"
   ]},

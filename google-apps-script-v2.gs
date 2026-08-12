@@ -236,9 +236,16 @@ function readRules_(ss) {
   return { rules: out, issue: out.length ? '' : "'" + SH_RULES + "' 탭에서 읽어들인 항목이 없습니다." };
 }
 
+/** 점포명 목록 — 체크리스트 시트에 없으면 결과 시트에서도 찾습니다
+ *  (체크리스트 시트를 편집할 수 없는 경우를 위해) */
 function listStores_() {
-  var ss = SpreadsheetApp.openById(CHECKLIST_SS_ID);
-  var sh = ss.getSheetByName(SH_STORES);
+  var sh = null;
+  try {
+    var cs = SpreadsheetApp.openById(CHECKLIST_SS_ID);
+    var s1 = cs.getSheetByName(SH_STORES);
+    if (s1 && s1.getLastRow() > 1) sh = s1;
+  } catch (e) {}
+  if (!sh) sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SH_STORES);
   if (!sh || sh.getLastRow() < 1) return [];
   var vals = sh.getRange(1, 1, sh.getLastRow(), 1).getValues();
   var HEADERS = { '점포명': 1, '지점명': 1, '매장명': 1, '점포': 1, 'store': 1, 'Store': 1 };

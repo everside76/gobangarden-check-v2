@@ -624,8 +624,14 @@ function sendToSheet(){
   }).catch(function(err){
     persistCurrent(false);
     btn.disabled = false; btn.innerHTML = icon("i-send")+"다시 전송하기";
-    $("sendHint").innerHTML = '전송에 실패했어요 ('+esc(err.message)+').<br>결과는 이 기기에 저장했으니 <b>점검 이력</b>에서 나중에 다시 보낼 수 있어요.';
-    toast("전송 실패 — 기기에 저장했어요");
+    /* 응답을 못 받았을 뿐 시트에는 저장됐을 수 있습니다.
+       같은 점검을 다시 보내도 점검ID로 걸러져 중복 저장되지 않으므로 재전송이 안전합니다. */
+    var timedOut = /abort|signal/i.test(err.message || "");
+    $("sendHint").innerHTML = timedOut
+      ? '응답이 늦어 확인하지 못했어요. <b>시트에는 이미 저장됐을 수 있습니다.</b><br>'
+        + '결과는 기기에도 저장했으니 <b>점검 이력</b>에서 <b>다시 전송</b>해 보세요. (같은 점검은 두 번 저장되지 않습니다)'
+      : '전송에 실패했어요 ('+esc(err.message)+').<br>결과는 이 기기에 저장했으니 <b>점검 이력</b>에서 나중에 다시 보낼 수 있어요.';
+    toast(timedOut ? "응답이 늦어요 — 기기에 저장했어요" : "전송 실패 — 기기에 저장했어요");
   });
 }
 

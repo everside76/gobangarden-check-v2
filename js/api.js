@@ -54,14 +54,16 @@ MOT.api = (function () {
     return getJSON({ action: "detail", id: id });
   }
 
-  /* 결과 전송 — Apps Script는 text/plain 으로 받아야 preflight 없이 통과 */
+  /* 결과 전송 — Apps Script는 text/plain 으로 받아야 preflight 없이 통과
+     제한시간을 넉넉히 둡니다. Apps Script가 한동안 쉬었다가 처음 깨어날 때(콜드스타트)
+     20초를 넘기는 일이 있어, 실제로는 저장됐는데 앱만 '실패'로 보이는 문제가 있었습니다. */
   function send(payload) {
     if (!hasUrl()) return Promise.reject(new Error("구글 시트 주소가 설정되지 않았습니다"));
     return fetchTimeout(url(), {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload)
-    }, 20000).then(function (res) {
+    }, 60000).then(function (res) {
       return res.json().catch(function () { return { result: res.ok ? "success" : "error" }; });
     }).then(function (j) {
       if (j && (j.result === "success" || j.ok)) return j;
