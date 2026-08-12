@@ -14,7 +14,7 @@ MOT.config = {
   RESULT_SHEET_URL:    "https://docs.google.com/spreadsheets/d/1qMAtiJ8CC0QcL2ijSqV2PFeH1dEZo175E7bFNW4Tu9U/edit",
 
   BRAND: "고반가든",
-  APP_VERSION: "2.0.0",
+  APP_VERSION: "2.0.1",
 
   /* 등급 컷 (점수 이상이면 해당 등급) */
   GRADE_CUTS: [
@@ -53,6 +53,9 @@ MOT.LS = {
 
 /* 변경 이력 (최신이 위) */
 MOT.CHANGELOG = [
+  { v: "2.0.1", date: "2026-08-12", items: [
+    "구글 시트의 18번(뜨거우니 조심하세요) 구분과 7번 개인구분이 정리되어, 앱 내장본을 시트와 동일하게 맞췄습니다"
+  ]},
   { v: "2.0.0", date: "2026-08-12", items: [
     "V2 전면 개편 — 체크리스트를 구글 시트에서 직접 불러옵니다. 문항·배점·판정 기준을 시트에서 고치면 앱에 바로 반영됩니다",
     "채점 방식 변경: 감점제 → 획득점수제. '일반' 문항의 이행 점수 합계가 100점이며, 미흡은 절반, 불이행은 0점입니다",
