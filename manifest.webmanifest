@@ -1,0 +1,17 @@
+{
+  "name": "고반가든 MOT2",
+  "short_name": "고반가든 MOT2",
+  "description": "고반가든 서비스 MOT 체크리스트 점검 앱 (V2)",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f6f8",
+  "theme_color": "#a8906c",
+  "lang": "ko",
+  "icons": [
+    { "src": "assets/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
