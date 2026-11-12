@@ -785,13 +785,20 @@ function deleteHistory(id){
 function toggleOnlineHistory(){
   var box = $("onlineHistList");
   if (box.style.display === "block"){ box.style.display = "none"; return; }
+  if (onlineCache){ box.style.display = "block"; renderOnlineHistory(); return; }
+  /* 매장 공용 접속코드 — 한 번 맞으면 이 기기에 기억하고, 틀리거나 바뀌면 지우고 다시 묻습니다 */
+  var code = ST.settings().accessCode || prompt("온라인 점검이력을 보려면 매장 공용 접속코드를 입력하세요");
+  if (!code) return;
+  code = String(code).trim();
   box.style.display = "block";
-  if (onlineCache){ renderOnlineHistory(); return; }
   $("onlineHistItems").innerHTML = '<div class="empty-state">불러오는 중…</div>';
-  API.fetchList().then(function(list){
+  API.fetchList(code).then(function(list){
+    var s = ST.settings(); s.accessCode = code; ST.saveSettings(s);
     onlineCache = list; renderOnlineHistory();
   }).catch(function(err){
-    $("onlineHistItems").innerHTML = '<div class="empty-state">불러오지 못했어요.<br>'+esc(err.message)+'</div>';
+    if (err.code === "ACCESS_CODE"){ var s = ST.settings(); delete s.accessCode; ST.saveSettings(s); }
+    $("onlineHistItems").innerHTML = '<div class="empty-state">불러오지 못했어요.<br>'+esc(err.message)
+      + (err.code === "ACCESS_CODE" ? '<br>버튼을 다시 눌러 접속코드를 입력하세요.' : '') + '</div>';
   });
 }
 function renderOnlineHistory(){

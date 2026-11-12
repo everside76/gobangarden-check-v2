@@ -71,12 +71,31 @@ function doGet(e) {
       return json_(getChecklist_(fresh));
     }
     if (action === 'stores') return json_({ result: 'success', stores: listStores_() });
+    // 점검 결과(직원 이름·점수)는 매장 공용 접속코드가 맞을 때만 내줍니다
+    if (action === 'list' || action === 'detail') {
+      var deny = checkAccessCode_(e);
+      if (deny) return json_(deny);
+    }
     if (action === 'list')   return json_({ result: 'success', list: listSummaries_() });
     if (action === 'detail') return json_(getDetail_(e.parameter.id));
   } catch (err) {
     return json_({ result: 'error', message: String(err) });
   }
   return json_({ result: 'ok', message: '고반가든 MOT V2 수신 서버가 정상 동작 중입니다.' });
+}
+
+/**
+ * 온라인 이력 조회용 매장 공용 접속코드 확인.
+ * 코드는 공개 저장소에 노출되지 않도록 소스가 아니라
+ * [프로젝트 설정 ⚙️ → 스크립트 속성]에 ACCESS_CODE 로 저장합니다.
+ * 설정되지 않았으면 조회를 막습니다(실수로 열린 채 배포되지 않도록).
+ */
+function checkAccessCode_(e) {
+  var want = String(PropertiesService.getScriptProperties().getProperty('ACCESS_CODE') || '').trim();
+  if (!want) return { result: 'error', code: 'ACCESS_CODE', message: '관리자가 접속코드를 아직 설정하지 않았습니다.' };
+  var got = String((e && e.parameter && e.parameter.code) || '').trim();
+  if (got !== want) return { result: 'error', code: 'ACCESS_CODE', message: '접속코드가 맞지 않습니다.' };
+  return null;
 }
 
 /* ---------- 체크리스트 로딩 ---------- */

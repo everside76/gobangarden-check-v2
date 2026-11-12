@@ -14,7 +14,7 @@ MOT.config = {
   RESULT_SHEET_URL:    "https://docs.google.com/spreadsheets/d/1qMAtiJ8CC0QcL2ijSqV2PFeH1dEZo175E7bFNW4Tu9U/edit",
 
   BRAND: "고반가든",
-  APP_VERSION: "2.0.2",
+  APP_VERSION: "2.0.3",
 
   /* 등급 컷 (점수 이상이면 해당 등급) */
   GRADE_CUTS: [
@@ -53,6 +53,9 @@ MOT.LS = {
 
 /* 변경 이력 (최신이 위) */
 MOT.CHANGELOG = [
+  { v: "2.0.3", date: "2026-11-12", items: [
+    "온라인 점검이력(구글 시트) 조회에 매장 공용 접속코드가 필요합니다 — 처음 한 번 입력하면 이 기기에 기억됩니다"
+  ]},
   { v: "2.0.2", date: "2026-08-12", items: [
     "전송 후 응답이 늦어 '실패'로 보이던 문제를 고쳤습니다 — 기다리는 시간을 넉넉히 늘렸고, 그래도 응답이 늦으면 '시트에 이미 저장됐을 수 있다'고 정확히 안내합니다"
   ]},

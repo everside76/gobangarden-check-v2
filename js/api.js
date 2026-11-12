@@ -44,14 +44,18 @@ MOT.api = (function () {
   }
 
   /* 온라인 점검이력 */
-  function fetchList() {
-    return getJSON({ action: "list" }).then(function (d) {
-      return (d && d.result === "success") ? (d.list || []) : [];
+  /* 점검 결과 조회는 매장 공용 접속코드가 필요합니다. 틀리면 err.code = "ACCESS_CODE" */
+  function fetchList(code) {
+    return getJSON({ action: "list", code: code || "" }).then(function (d) {
+      if (d && d.result === "success") return d.list || [];
+      var err = new Error((d && d.message) || "점검이력을 불러오지 못했습니다");
+      err.code = d && d.code;
+      throw err;
     });
   }
 
-  function fetchDetail(id) {
-    return getJSON({ action: "detail", id: id });
+  function fetchDetail(id, code) {
+    return getJSON({ action: "detail", id: id, code: code || "" });
   }
 
   /* 결과 전송 — Apps Script는 text/plain 으로 받아야 preflight 없이 통과
